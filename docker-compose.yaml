@@ -2,14 +2,13 @@ version: '3.3'
 services:
     api:
         image: 'shlinkio/shlink:stable'
-        # build:
-            # context: .
         environment:
             DEFAULT_DOMAIN: ${API_URL}
             IS_HTTPS_ENABLED: true
             BYPASS_LITESTREAM: ${BYPASS_LITESTREAM}
             #GEOLITE_LICENSE_KEY: kjh23ljkbndskj345
         volumes:
+            - ./litestream.yml:/etc/litestream.yml
             - ./database/database.sqlite:/etc/shlink/data/database.sqlite
             - ./database/database.sqlite-shm:/etc/shlink/data/database.sqlite-shm
             - ./database/database.sqlite-wal:/etc/shlink/data/database.sqlite-wal
@@ -52,8 +51,8 @@ services:
         environment:
             SHLINK_SERVER_API_KEY: ${SHLINK_SERVER_API_KEY}
             SHLINK_SERVER_NAME: "${SHLINK_SERVER_NAME}"
-            SHLINK_SERVER_URL: https://paste-api.tomekwaller.com
-            DEFAULT_DOMAIN: paste.tomekwaller.com
+            SHLINK_SERVER_URL: "https://${API_URL}"
+            DEFAULT_DOMAIN: ${API_URL}
             # - IS_HTTPS_ENABLED=true
             # - GEOLITE_LICENSE_KEY=kjh23ljkbndskj345
         networks:
@@ -64,6 +63,3 @@ services:
 networks:
   caddy:
     external: true
-
-# volumes:
-#     shlink-sqlite-db:
