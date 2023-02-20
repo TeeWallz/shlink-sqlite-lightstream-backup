@@ -2,6 +2,7 @@ version: '3.3'
 services:
     api:
         image: 'shlinkio/shlink:stable'
+        restart: unless-stopped
         environment:
             DEFAULT_DOMAIN: ${API_URL}
             IS_HTTPS_ENABLED: true
@@ -24,6 +25,7 @@ services:
             
     litestream:
         image: 'litestream/litestream'
+        restart: unless-stopped
         working_dir: /usr/local/bin/
         entrypoint: /bin/sh
         command: >
@@ -43,6 +45,7 @@ services:
             
     web:
         image: shlinkio/shlink-web-client
+        restart: unless-stopped
         ports:
             - ${WEB_PORT}:80
         labels:
